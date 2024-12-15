@@ -35,7 +35,7 @@ class OrderStoreTest extends TestCase
         $res->assertStatus(200);
         $res->assertJson(['message' => 'Order created successfully']);
 
-        // check is availble in table
+        // check is availble in order table
         $this->assertDatabaseHas('order_infos', [
             'show_order_id' => $orderData['id'],
             'currency' => $orderData['currency'],

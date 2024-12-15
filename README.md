@@ -7,60 +7,69 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About AsiaYo API Test
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+使用最新版的 Laravel Framework 11.35.1
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## SOLID 原則
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   SOLID 實踐法則: [l5-repository](https://github.com/andersao/l5-repository)
+-   Concrete (服務組合)層: 協助 Controller 組合不同 Service 層的資料
+-   Controller (控制器)層: 主控制器
+-   Service (服務) 層: 業務邏輯
+-   Repository (資源庫)層: 獲取屬於所屬 Model 不同條件下的資料
+-   Entities (模型) 層: 資料表相關設定
+-   Presenter (資料呈現預處理)層: 預處理介面資料呈現
+-   View (資料呈現)層: 介面
+-   PSR-2: Coding Style Guide [PHP Standards Recommendations](https://www.php-fig.org)
 
-## Learning Laravel
+## 設計模式
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   訂單 id 不分國家爲唯一值，有訂單總表 order_infos
+-   和各貨幣資料表
+    -   order_twd_infos
+    -   order_usd_infos
+    -   order_jpy_infos
+    -   order_rmb_infos
+    -   order_myr_infos
+-   設計總表的原因是便於分析 不分國家的訂單資料，且避免迴圈查詢不同國家資料表的情形
+-   寫入時會使用 transaction 同步寫入訂單總表 order_infos 和所屬貨幣資料表
+-   查詢時建議可設計藉由特定字樣如訂單號 TW00001 或帶國家代號 查詢所屬的貨幣資料表
+-   如特定情況只能用訂單 id 查詢，可查詢訂單總表
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 安裝使用
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+運行以下命令：
 
-## Laravel Sponsors
+-   安裝 composer 依賴
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+```
 
-### Premium Partners
+-   啟用 Docker
+-
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+docker-compose up -d
+```
 
-## Contributing
+-   執行 migrate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+docker exec -it asiayo-laravel php artisan migrate
+```
 
-## Code of Conduct
+-   Endpoint
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    POST
 
-## Security Vulnerabilities
+    ```bash
+    http://localhost:8080/api/orders
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    GET
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```bash
+    http://localhost:8080/api/orders/{id}
+    ```

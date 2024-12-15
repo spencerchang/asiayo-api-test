@@ -22,8 +22,8 @@ services:
     container_name: asiayo-nginx
   mysql:
     image: mysql:lts
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     environment:
       MYSQL_DATABASE: asiayo
       MYSQL_ROOT_PASSWORD: root
@@ -35,6 +35,3 @@ services:
       interval: 10s
       timeout: 20s
       retries: 30
-
-
-      # docker exec -it asiayo-laravel php artisan migrate
