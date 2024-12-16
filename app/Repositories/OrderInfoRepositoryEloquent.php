@@ -45,6 +45,7 @@ class OrderInfoRepositoryEloquent extends BaseRepository implements OrderInfoRep
         $this->pushCriteria(app(RequestCriteria::class));
     }
     
+    
     public function getByShowOrderId(string $showOrderId)
     {
         return OrderInfo::where('show_order_id', $showOrderId)->first();

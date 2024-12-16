@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Services\OrderService;
@@ -29,7 +30,7 @@ class OrderStoreTest extends TestCase
             'price' => 1000,
             'currency' => 'TWD',
         ];
-        $targetOrderTable = 'order_' . strtolower($orderData['currency']).'_infos';
+        $targetOrderTable = 'order_' . strtolower($orderData['currency']) . '_infos';
 
         $res = $this->json('POST', '/api/orders', $orderData);
         $res->assertStatus(200);

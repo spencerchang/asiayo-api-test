@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Services\OrderService;
@@ -31,7 +32,7 @@ class OrderGetTest extends TestCase
             'currency' => 'TWD',
         ];
         $this->orderService->storeOrder($orderData);
-        $res = $this->json('GET', '/api/orders/'.$orderData['id'], $orderData);
+        $res = $this->json('GET', '/api/orders/' . $orderData['id'], $orderData);
         $res->assertStatus(200);
     }
 
@@ -42,5 +43,4 @@ class OrderGetTest extends TestCase
         $res->assertStatus(404);
         $res->assertJson(['message' => 'Order not found']);
     }
-    
 }
