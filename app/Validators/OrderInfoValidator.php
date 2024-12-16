@@ -44,8 +44,12 @@ class OrderInfoValidator extends LaravelValidator
     {
         $address = json_decode($value, true);
 
-        if (!isset($address['street']) || empty(trim($address['street']))) {
-            throw new ValidatorException((new MessageBag())->add('address', 'Address must include a valid street field.'));
+        if (!isset($address['city']) || empty(trim($address['city']))) {
+            throw new ValidatorException((new MessageBag())->add('address', 'city is required.'));
+        } else if (!isset($address['district']) || empty(trim($address['district']))) {
+            throw new ValidatorException((new MessageBag())->add('address', 'district is required.'));
+        } else if (!isset($address['street']) || empty(trim($address['street']))) {
+            throw new ValidatorException((new MessageBag())->add('address', 'street is required.'));
         }
     }
 }
